@@ -62,7 +62,7 @@ class Graph:
         self.__nodes: list = np.concatenate([np.full(m0 - 1, ii) for ii in range(m0)]).tolist()
 
     @property
-    def m0(self):
+    def m0(self) -> int:
         return self.__m0
 
     @m0.setter
@@ -76,7 +76,7 @@ class Graph:
             raise WrongInitialValue('m0 must be integer larger than 1')
 
     @property
-    def alpha(self):
+    def alpha(self) -> float:
         return self.__alpha
 
     @alpha.setter
@@ -90,15 +90,15 @@ class Graph:
             raise WrongAlphaValue('alpha must be a number from 0 to 1')
 
     @property
-    def tick(self):
+    def tick(self) -> int:
         return self.__tick
 
     @property
-    def nodes(self):
+    def nodes(self) -> list:
         return self.__nodes
 
     @property
-    def vertex_degrees(self):
+    def vertex_degrees(self) -> list:
         unique, degree_distribution = np.unique(self.nodes, return_counts=True)
         return degree_distribution.tolist()
 
