@@ -103,7 +103,7 @@ class Graph:
         return degree_distribution.tolist()
 
     @property
-    def size(self):
+    def size(self) -> int:
         return self.m0 + self.tick
 
     def update_graph_to_size(self, desired_size: int):
