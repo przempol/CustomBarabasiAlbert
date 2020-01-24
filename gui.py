@@ -4,12 +4,15 @@ import numpy as np
 import argparse
 
 
-def parse_and_activate():
+def parse_and_activate() -> None:
+    """
+    Function for command interface, which parse and choose right initial numbers/plots.
+    """
     parser = argparse.ArgumentParser("Simulation of modified Barabasi-Albert graph and plot selected chart")
     parser.add_argument("m0", type=int,
                         help="size of the initial graph (at least 2)")
     parser.add_argument("alpha", type=float,
-                        help="alpha value for modified BA model, "
+                        help="alpha value for modified BA model (from 0 to 1), "
                              "alpha = 1 mean pure BA, and alpha = 0 mean pure random")
     parser.add_argument("desired_size", type=int,
                         help="desired size of the graph at the end")
@@ -37,7 +40,16 @@ def parse_and_activate():
     plt.show()
 
 
-def plot_comparision(g: Graph):
+def plot_comparision(g: Graph) -> None:
+    """
+    Create and display two chart - one with log-log scale and second with log-none scale of simulation data and
+    theoretical curve.
+
+    Function that first compute degree_distribution just by adding how many given vertex degree appeared in list. Then
+    it is normalized and finally theoretical curve is computed. Note that mentioned curve is calculated using mean-field
+    theory, and can be different from simulation data, especially when alpha is closer to 0 than to 1 - I am still
+    working about that - possibly it is because it reaches its limit at infinity much slower compared to alpha=1.
+    """
     degree, degree_distribution = np.unique(g.vertex_degrees, return_counts=True)
     degree_distribution = degree_distribution / (g.m0 + g.tick)
     degree_distribution_theory = modified_ba_theoretical_curve(degree, g.alpha)
@@ -70,7 +82,16 @@ def plot_comparision(g: Graph):
     plt.legend()
 
 
-def plot_log_log(g: Graph):
+def plot_log_log(g: Graph) -> None:
+    """
+    Create and display plot with log-log scale of simulation data and theoretical curve. Additionally if alpha
+    is close to 1, it will fit data to linear function.
+
+    Function that first compute degree_distribution just by adding how many given vertex degree appeared in list. Then
+    it is normalized and finally theoretical curve is computed. Note that mentioned curve is calculated using mean-field
+    theory, and can be different from simulation data, especially when alpha is closer to 0 than to 1 - I am still
+    working about that - possibly it is because it reaches its limit at infinity much slower compared to alpha=1.
+    """
     degree, degree_distribution = np.unique(g.vertex_degrees, return_counts=True)
     degree_distribution = degree_distribution / (g.m0 + g.tick)
     degree_distribution_theory = modified_ba_theoretical_curve(degree, g.alpha)
@@ -95,7 +116,16 @@ def plot_log_log(g: Graph):
     plt.legend()
 
 
-def plot_log_none(g: Graph):
+def plot_log_none(g: Graph) -> None:
+    """
+    Create and display plot with log-none scale of simulation data and theoretical curve. Additionally if alpha
+    is close to 0, it will fit data to linear function.
+
+    Function that first compute degree_distribution just by adding how many given vertex degree appeared in list. Then
+    it is normalized and finally theoretical curve is computed. Note that mentioned curve is calculated using mean-field
+    theory, and can be different from simulation data, especially when alpha is closer to 0 than to 1 - I am still
+    working about that - possibly it is because it reaches its limit at infinity much slower compared to alpha=1.
+    """
     degree, degree_distribution = np.unique(g.vertex_degrees, return_counts=True)
     degree_distribution = degree_distribution / (g.m0 + g.tick)
     degree_distribution_theory = modified_ba_theoretical_curve(degree, g.alpha)
@@ -126,7 +156,7 @@ def modified_ba_theoretical_curve(k: int, alpha: float, m: int = 1) -> float:
 
     (m-2*(1-alpha)/alpha) ^ 2 * 2/alpha * (k + 2 - 2 alpha)^(-2-alpha), note that this equation will broke at alpha -> 0
 
-    if alpha=0
+    if alpha=0 :
     e/m * exp(-k/m)
 
     :param k: vertex degree
@@ -153,7 +183,7 @@ def best_fit(x: list, y: list, alpha: float) -> (float, list, list):
     :param x: list of degrees
     :param y: list of degrees distribution
     :param alpha:
-    :return: predicted alpha, and predicted y (degrees distribution list) alongside with x (degree list)
+    :return: predicted alpha, and x (degree list) alongside with predicted y (degrees distribution list)
     """
     if alpha > 0.999:
         x_true = np.log(x)
