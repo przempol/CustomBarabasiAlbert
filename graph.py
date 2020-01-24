@@ -59,14 +59,14 @@ class Graph:
         self.m0 = m0
         self.alpha = alpha
         self.__tick: int = 0
-        self.__nodes: list = np.concatenate([np.full(m0 - 1, ii) for ii in range(m0)]).tolist()
+        self.__nodes: list = list(np.concatenate([np.full(m0 - 1, ii) for ii in range(m0)]).tolist())
 
     @property
     def m0(self) -> int:
         return self.__m0
 
     @m0.setter
-    def m0(self, m0):
+    def m0(self, m0) -> None:
         if isinstance(m0, int):
             if m0 > 1:
                 self.__m0: int = m0
@@ -153,7 +153,7 @@ class Graph:
         to make graph of 1e5 nodes.
 
         :param desired_size: integer (that must be larger than actual size of graph) of desired size
-        :return time:
+        :return: time
         """
         if isinstance(desired_size, int):
             if desired_size <= 0:
@@ -169,4 +169,5 @@ class Graph:
             tmp_graph.single_update()
 
         end = time.time()
+        print(f'It took {end - start} seconds to simulate whole graph.')
         return end - start
