@@ -29,7 +29,7 @@ class Graph:
 
     int tick - current time
 
-    list nodes - list of where are nodes currently connected - it is a much faster way to store state of graph,
+    list links - list of where are links currently connected - it is a much faster way to store state of graph,
     than the matrix of adjacency
 
     list vertex_degrees - list of currently vertex degrees
@@ -39,7 +39,7 @@ class Graph:
 
     And following methods are implemented
 
-    Graph.single_update() - update state of Graph by adding one node
+    Graph.single_update() - update state of Graph by adding one link
 
     Graph.update_graph_to_size(size) - update state of Graph by to desired size
 
@@ -49,7 +49,7 @@ class Graph:
         """
         Create instance of Barabasi-Albert Graph with given starting size 'm0', and custom parameter 'alpha'
         what indices probability of using PAR (then it is preferential attachment rule - classical Barabasi-Albert
-        graphs) over random choose of nodes (then it will be random graph).
+        graphs) over random choose of links (then it will be random graph).
 
         :param m0: size of graph in time = 0
         :param alpha: float from 0 do 1, describing probability of using preferential attachment rule,
@@ -59,7 +59,7 @@ class Graph:
         self.m0 = m0
         self.alpha = alpha
         self.__tick: int = 0
-        self.__nodes: list = list(np.concatenate([np.full(m0 - 1, ii) for ii in range(m0)]))
+        self.__links: list = list(np.concatenate([np.full(m0 - 1, ii) for ii in range(m0)]))
 
     @property
     def m0(self) -> int:
@@ -94,22 +94,22 @@ class Graph:
         return self.__tick
 
     @property
-    def nodes(self) -> list:
+    def links(self) -> list:
         """
-        Nodes is a list that contains the beginning and end of every node.
+        Links is a list that contains the beginning and end of every link.
 
-        For example, if we have 3 vertex, and first is connected to the second and third, then nodes list will
-        look like [0,1,0,2] - first node have endings at vertex_0 and verter_1 (first and second one) and second node
+        For example, if we have 3 vertex, and first is connected to the second and third, then links list will
+        look like [0,1,0,2] - first link have endings at vertex_0 and verter_1 (first and second one) and second link
         have endings at vertex_0 and verter_2.
         """
-        return self.__nodes
+        return self.__links
 
     @property
     def vertex_degrees(self) -> list:
         """
-        vertex degrees is a list that is computed by adding how many given vertex appeared on the list nodes
+        vertex degrees is a list that is computed by adding how many given vertex appeared on the list links
         """
-        unique, degree_distribution = np.unique(self.nodes, return_counts=True)
+        unique, degree_distribution = np.unique(self.links, return_counts=True)
         return degree_distribution.tolist()
 
     @property
@@ -118,7 +118,7 @@ class Graph:
 
     def update_graph_to_size(self, desired_size: int) -> None:
         """
-        Update graph to desired size (number of nodes), what must obviously must be larger than current size
+        Update graph to desired size (number of links), what must obviously must be larger than current size
         While updating, it is only using Graphs.append() function
 
         :param desired_size: integer (that must be larger than actual size of graph) of desired size
@@ -135,33 +135,33 @@ class Graph:
 
     def single_update(self) -> None:
         """
-        Append just one node to the current graph.
+        Append just one link to the current graph.
 
         While it is modified Barabasi-Albert graphs, it compare 'alpha' value with random float number from 0 to 1
-        generated from uniform distribution. If 'alpha' is larger than random number, it will choose node using
-        preferential attachment rule (PAR), in other case will choose random node.
+        generated from uniform distribution. If 'alpha' is larger than random number, it will choose link using
+        preferential attachment rule (PAR), in other case will choose random link.
 
-        Choosing random node is obviously clever. Picking node using PAR is more tricky - function takes list of nodes,
-        which consist of start and end vertex of every node. So choosing randomly from this list follows that vertex
+        Choosing random link is obviously clever. Picking link using PAR is more tricky - function takes list of links,
+        which consist of start and end vertex of every link. So choosing randomly from this list follows that vertex
         that appears more often is more likely to be chosen (which is equal to say vertex that have greater degree
         have higher chance to be the chosen one - which is basically what PAR rule is about - greater vertex degree =
         greater chance to be the chosen one)
         """
         # x is current number of adding vertex
         current_vertex = self.tick + self.m0
-        # we append the begginig of the node, which is current vertex
-        self.__nodes.append(current_vertex)
+        # we append the begginig of the link, which is current vertex
+        self.__links.append(current_vertex)
         # rnd is number from 0 to 1, so if alpha = 1, then its always bigger than rnd
         rnd = np.random.rand()
         if self.alpha > rnd:
             size = self.m0 * (self.m0 - 1) + 2 * self.tick
             # y is imitating preferential attachment rule -
-            y = self.__nodes[np.random.randint(size)]
+            y = self.__links[np.random.randint(size)]
         else:
             # y is imitating random choosing
             y = np.random.randint(current_vertex)
 
-        self.__nodes.append(y)
+        self.__links.append(y)
         self.__tick += 1
 
     def test_speed(self, desired_size: int) -> float:

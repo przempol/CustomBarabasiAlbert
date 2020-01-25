@@ -13,12 +13,12 @@ def graph(m0, alpha):
     return Graph(m0=m0, alpha=alpha)
 
 
-@pytest.mark.parametrize("m0, alpha, expected_nodes, expected_vertex_degrees",
+@pytest.mark.parametrize("m0, alpha, expected_links, expected_vertex_degrees",
                          [(2, 1, [0, 1], [1, 1]),
                           (3, 1, [0, 0, 1, 1, 2, 2], [2, 2, 2])
                           ])
-def test_valid_initial_data(m0, alpha, expected_nodes, expected_vertex_degrees, graph):
-    assert graph.nodes == expected_nodes
+def test_valid_initial_data(m0, alpha, expected_links, expected_vertex_degrees, graph):
+    assert graph.links == expected_links
     assert graph.vertex_degrees == expected_vertex_degrees
 
 
