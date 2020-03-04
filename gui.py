@@ -135,7 +135,7 @@ def plot_log_none(g: Graph) -> None:
     if g.alpha < 0.001:
         a, degree_fit, degree_distribution_fit = best_fit(degree, degree_distribution, g.alpha)
         plt.plot(degree_fit, degree_distribution_fit, 'b', label=f'best fit with slope = {a}')
-        plt.plot(degree, degree_distribution_theory, 'g', label='theoretical with slope = -1')
+        plt.plot(degree, degree_distribution_theory, 'g', label=f'theoretical with slope = {-np.log(2)}')
     else:
         plt.plot(degree, degree_distribution_theory, 'g', label='theoretical')
 
@@ -171,7 +171,8 @@ def modified_ba_theoretical_curve(k: int, alpha: float, m: int = 1) -> float:
         ret *= 2 / alpha
         ret *= (k + 2 - 2 * alpha)**(- 2 - alpha)
     else:
-        ret = np.e / m * np.exp(- k / m)
+        ret = m ** (k - m) / (m+1) ** (k - m + 1)
+        # ret = np.e / m * np.exp(- k / m)
     return ret
 
 
