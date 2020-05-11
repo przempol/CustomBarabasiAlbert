@@ -38,17 +38,24 @@ of BA graph, and 50% chance that will connect to random vertex.
 | -c, --compare   |compare graph on two chart - log-log scale and log-none scale              
 | -ll, --loglog   |plot on log-log scale and perform fit if alpha = 1
 | -ln, --lognone  |plot on log-none scale and perform fit if alpha = 0
+| -fit, --fit     |perform analytical fit using maximum likelihood method
+| -m1, --method1  |first part of simulation analysis - plot with normal scale
+| -m2, --method2  |first part of simulation analysis - plot with log-log scale
+| -m3, --method3  |first part of simulation analysis - plot with log-log scale, while using logarithmic bins
+| -m4, --method4  |first part of simulation analysis - plot with log-log scale, but plot cumulative distribution
 | |if no optional argument is chosen, then program will calculate time needed to simulate graph
 
 E.g 
 * `python main.py 2 1 1000000 -ll`
 * `python main.py 3 0 1000000 -ln`
-* `python main.py 2 0.5 100000000 -c`
+* `python main.py 2 0.666666 100000000 -c -fit`
+* `python main.py 2 0.5 100000000 -m1 -m2 -m3 -m4 -fit`
+
 
 `deactivate`
 
 
-# # Long description
+## Long description
 The Barabási–Albert (BA) model is an algorithm for generating random scale-free networks using a preferential 
 attachment mechanism, which means that the more connected a node is, the more likely it is to receive new links.
 Nodes with a higher degree have a stronger ability to grab links added to the network.

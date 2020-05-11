@@ -113,6 +113,12 @@ class Graph:
         return degree_distribution.tolist()
 
     @property
+    def vertex_degree_distribution(self) -> (list, list):
+        degree, degree_distribution = np.unique(self.vertex_degrees, return_counts=True)
+        degree_distribution = degree_distribution / self.size
+        return degree, degree_distribution
+
+    @property
     def size(self) -> int:
         return self.m0 + self.tick
 
@@ -190,3 +196,4 @@ class Graph:
         end = time.time()
         print(f'It took {end - start} seconds to simulate whole graph.')
         return end - start
+
