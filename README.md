@@ -40,9 +40,9 @@ of BA graph, and 50% chance that will connect to random vertex.
 | -ln, --lognone  |plot on log-none scale and perform fit if alpha = 0
 | -fit, --fit     |perform analytical fit using maximum likelihood method
 | -m1, --method1  |first part of simulation analysis - plot with normal scale
-| -m2, --method2  |first part of simulation analysis - plot with log-log scale
-| -m3, --method3  |first part of simulation analysis - plot with log-log scale, while using logarithmic bins
-| -m4, --method4  |first part of simulation analysis - plot with log-log scale, but plot cumulative distribution
+| -m2, --method2  |second part of simulation analysis - plot with log-log scale
+| -m3, --method3  |third part of simulation analysis - plot with log-log scale, while using logarithmic bins
+| -m4, --method4  |fourth part of simulation analysis - plot with log-log scale, but plot cumulative distribution
 | |if no optional argument is chosen, then program will calculate time needed to simulate graph
 
 E.g 
