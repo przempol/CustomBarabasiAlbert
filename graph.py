@@ -99,8 +99,8 @@ class Graph:
         Links is a list that contains the beginning and end of every link.
 
         For example, if we have 3 vertex, and first is connected to the second and third, then links list will
-        look like [0,1,0,2] - first link have endings at vertex_0 and verter_1 (first and second one) and second link
-        have endings at vertex_0 and verter_2.
+        look like [0,1,0,2] - first link have endings at vertex_0 and vertex_1 (first and second one) and second link
+        have endings at vertex_0 and vertex_2.
         """
         return self.__links
 
@@ -153,8 +153,8 @@ class Graph:
         have higher chance to be the chosen one - which is basically what PAR rule is about - greater vertex degree =
         greater chance to be the chosen one)
         """
-        # x is current number of adding vertex
-        current_vertex = self.tick + self.m0
+        # this is current number of adding vertex
+        current_vertex = self.size
         # we append the begginig of the link, which is current vertex
         self.__links.append(current_vertex)
         # rnd is number from 0 to 1, so if alpha = 1, then its always bigger than rnd
@@ -175,7 +175,7 @@ class Graph:
         Function that measure and return time (in seconds) needed to create graph of desired size, with initial values
         the same as current graph. For comparision, using matrix methods implemented in mathematica, it took about
         30 minutes to make graph of 1e4 nodes, while using list methods implemented in python, it took about 1 second
-        to make graph of 1e5 nodes.
+        to make graph of 1e6 nodes.
 
         :param desired_size: integer (that must be larger than actual size of graph) of desired size
         :return: time
@@ -196,4 +196,3 @@ class Graph:
         end = time.time()
         print(f'It took {end - start} seconds to simulate whole graph.')
         return end - start
-

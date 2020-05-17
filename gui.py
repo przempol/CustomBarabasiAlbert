@@ -58,8 +58,12 @@ def parse_and_activate() -> None:
     if args.method4:
         plot_method4(g.vertex_degree_distribution)
     if args.fit:
-        for ii in range(20):
-            mlm_fit(g.vertex_degrees, ii*10+10)
+        # vertex_degrees = [random_discrete_power_law(3.5) for ii in range(1000000)]
+        # vertex_degrees = generate_power_law(np.random.random(1000000), 3)
+        # f2 = np.vectorize(generate_power_law)
+        # vertex_degrees = f2(np.random.random(1000000), 2.5)
+        for ii in range(21):
+            mlm_fit(g.vertex_degrees, max(ii*10, 1))
 
     plt.show()
 
@@ -181,11 +185,12 @@ def plot_method1(vertex_degree_distribution: (list, list)) -> None:
     4. log-log with cumulative adding
     """
     degree, degree_distribution = vertex_degree_distribution
+    degree_distribution = degree_distribution / np.sum(degree_distribution)
 
     plt.figure()
     plt.plot(degree, degree_distribution, 'r.', label='simulation')
 
-    plt.title('Degree distribution (log-none scale)')
+    plt.title('Degree distribution')
     plt.xlabel('Node degree')
     plt.ylabel('Probability')
     plt.legend()
@@ -200,6 +205,7 @@ def plot_method2(vertex_degree_distribution: (list, list)) -> None:
     4. log-log with cumulative adding
     """
     degree, degree_distribution = vertex_degree_distribution
+    degree_distribution = degree_distribution / np.sum(degree_distribution)
     slope, sigma, degree, degree_distribution_ls = ls_fit(degree, degree_distribution)
 
     plt.figure()
@@ -235,7 +241,7 @@ def plot_method3(vertex_degree_distribution: (list, list)) -> None:
     plt.yscale("log")
     plt.ylim(degree_distribution[-1], degree_distribution[0])
 
-    plt.title('Degree distribution (log-log scale)')
+    plt.title('Degree distribution (log-log scale & logarithmic bins)')
     plt.xlabel('Node degree')
     plt.ylabel('Probability')
     plt.legend()
@@ -261,7 +267,7 @@ def plot_method4(vertex_degree_distribution: (list, list)) -> None:
     plt.yscale("log")
     plt.ylim(degree_distribution[-1], degree_distribution[0])
 
-    plt.title('Cumulative degree distribution (log-log scale)')
+    plt.title('Survival function (log-log scale)')
     plt.xlabel('Node degree')
     plt.ylabel('Probability')
     plt.legend()
