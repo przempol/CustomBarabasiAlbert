@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.special import gamma, zeta
+from scipy.special import zeta, poch
 
 
 def solution_mft(k: int, alpha: float, m: int = 1) -> float:
@@ -46,14 +46,10 @@ def solution_me(k: int, alpha: float, m: int = 1) -> float:
         :return: probability of given vertex degree
     """
     if alpha > 0.001:
-        np.seterr(divide='ignore', invalid='ignore')
         m = 1
         ret = 2 / (2 * m + 2 - alpha * m)
-        ret *= gamma(2 * m / alpha - m + 1 + 2 / alpha) / gamma(2 * m / alpha - m)
-        # ret /= gamma(2 * m / alpha - m)
-        ret *= gamma(2 * m / alpha - 2 * m + k) / gamma(2 * m / alpha - 2 * m + 1 + 2 / alpha + k)
-        # ret /= gamma(2 * m / alpha - 2 * m + 1 + 2/alpha + k)
-        np.seterr(all=None, divide=None, over=None, under=None, invalid=None)
+        ret *= poch(2 * m / alpha - m, 1 + 2 / alpha)
+        ret /= poch(2 * m / alpha - 2 * m + k, 1 + 2 / alpha)
     else:
         m = 1
         ret = m ** (k - m) / (m + 1) ** (k - m + 1)
@@ -83,7 +79,7 @@ def ls_fit(x: list, y: list) -> (float, float, list, list):
 
 def mlm_fit(vertex_degrees: list, x_min: int) -> (float, float):
     """
-    Function computing alpha and sigma_alpha using maximum likelihood method
+    Function computing alpha and sigma_alpha using maximum likelihood method (continous version)
 
     :param vertex_degrees: list of vertex degrees
     :param x_min: the value of x, where we can say that for x >= x_min is power law distribution
@@ -135,7 +131,6 @@ def pmf_power_law(x: int, alpha: float) -> float:
 def generate_power_law(x: np.int, alpha: np.float) -> np.float:
     ret = 1 - x
     ret = ret ** (-1 / (alpha - 1))
-    # ret = np.int(ret)
     return ret
 
 
